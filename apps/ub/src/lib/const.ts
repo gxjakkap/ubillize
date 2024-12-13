@@ -150,4 +150,22 @@ export const FullBankData = [
     { "short": "lhb", "code": "073", "color": "#6d6e71", "official_name": "LAND AND HOUSES BANK PUBLIC COMPANY LIMITED", "nice_name": "Land and Houses Bank", "swift_code": "LAHRTHB2" },
     { "short": "ttb", "code": "076", "color": "#ecf0f1", "official_name": "TMBTHANACHART BANK PUBLIC COMPANY LIMITED", "nice_name": "TMBThanachart Bank", "swift_code": "TMBKTHBK" }
 ]
+
+export const BankOptions = [
+    { "short": "bbl", "code": "002", "color": "#1e4598", "official_name": "BANGKOK BANK PUBLIC COMPANY LTD.", "nice_name": "Bangkok Bank", "swift_code": "BKKBTHBK" },
+    { "short": "kbank", "code": "004", "color": "#138f2d", "official_name": "KASIKORNBANK PUBLIC COMPANY LTD.", "nice_name": "Kasikorn Bank", "swift_code": "KASITHBK" },
+    { "short": "ktb", "code": "006", "color": "#1ba5e1", "official_name": "KRUNG THAI BANK PUBLIC COMPANY LTD.", "nice_name": "Krungthai Bank", "swift_code": "KRTHTHBK" },
+    { "short": "scb", "code": "014", "color": "#4e2e7f", "official_name": "SIAM COMMERCIAL BANK PUBLIC COMPANY LTD.", "nice_name": "Siam Commercial Bank", "swift_code": "SICOTHBK" },
+    { "short": "citi", "code": "017", "color": "#1583c7", "official_name": "CITIBANK, N.A.", "nice_name": "Citibank", "swift_code": "CITITHBX" },
+    { "short": "cimb", "code": "022", "color": "#7e2f36", "official_name": "CIMB THAI BANK PUPBLIC COMPANY LTD.", "nice_name": "CIMB Thai Bank", "swift_code": "UBOBTHBK" },
+    { "short": "bay", "code": "025", "color": "#fec43b", "official_name": "BANK OF AYUDHYA PUBLIC COMPANY LTD.", "nice_name": "Bank of Ayudhya (Krungsri)", "swift_code": "AYUDTHBK" },
+    { "short": "gsb", "code": "030", "color": "#eb198d", "official_name": "THE GOVERNMENT SAVINGS BANK", "nice_name": "Government Savings Bank", "swift_code": "GSBATHBK" },
+    { "short": "ghb", "code": "033", "color": "#f57d23", "official_name": "THE GOVERNMENT HOUSING BANK", "nice_name": "Government Housing Bank", "swift_code": "GOHUTHB1" },
+    { "short": "baac", "code": "034", "color": "#4b9b1d", "official_name": "BANK FOR AGRICULTURE AND AGRICULTURAL COOPERATIVES", "nice_name": "Bank for Agriculture and Agricultural Cooperatives", "swift_code": "BAABTHBK" },
+    { "short": "ibank", "code": "066", "color": "#184615", "official_name": "ISLAMIC BANK OF THAILAND", "nice_name": "Islamic Bank of Thailand", "swift_code": "TIBTTHBK" },
+    { "short": "tisco", "code": "067", "color": "#12549f", "official_name": "TISCO BANK PUBLIC COMPANY LIMITED", "nice_name": "Tisco Bank", "swift_code": "TFPCTHB1" },
+    { "short": "kk", "code": "069", "color": "#199cc5", "official_name": "KIATNAKIN BANK PUBLIC COMPANY LIMITED", "nice_name": "Kiatnakin Bank", "swift_code": "KKPBTHBK" },
+    { "short": "lhb", "code": "073", "color": "#6d6e71", "official_name": "LAND AND HOUSES BANK PUBLIC COMPANY LIMITED", "nice_name": "Land and Houses Bank", "swift_code": "LAHRTHB2" },
+    { "short": "ttb", "code": "076", "color": "#ecf0f1", "official_name": "TMBTHANACHART BANK PUBLIC COMPANY LIMITED", "nice_name": "TMBThanachart Bank", "swift_code": "TMBKTHBK" }
+]
   

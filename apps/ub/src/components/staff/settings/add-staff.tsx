@@ -160,10 +160,10 @@ export function AddStaffDialog() {
                 <DialogFooter>
                     {(status === 'ready' || status === 'failed') && (
                         <>
-                            <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Confirm</Button>
                             <DialogClose asChild>
                                 <Button variant="destructive">Cancel</Button>
                             </DialogClose>
+                            <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Confirm</Button>
                         </>
                     )}
                     {(status === 'success') && (

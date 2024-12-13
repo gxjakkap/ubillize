@@ -1,18 +1,20 @@
-import { deleteStaffAccount, editStaffAccount } from "@/app/staff/settings/actions"
-import { LoadingSpiner } from "@/components/svg/loading-spiner"
-import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-import { staff } from "@/db/schema"
+import { staff } from "@ubillize/db/schema"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { AlertCircle, CheckCircleIcon, Pencil, Trash2 } from "lucide-react"
 import { useState } from "react"
-import { Form, useForm } from "react-hook-form"
+import { useForm } from "react-hook-form"
 import { z } from "zod"
+
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+
+import { deleteStaffAccount, editStaffAccount } from "@/app/staff/settings/actions"
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form"
+import { LoadingSpiner } from "@/components/svg/loading-spiner"
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert"
+import { Input } from "@/components/ui/input"
+import { Button } from "@/components/ui/button"
 
 interface Data {
     staff: typeof staff.$inferSelect,
@@ -26,18 +28,22 @@ const RoleEnum = z.enum(ROLES)
 
 const passwordSchema = z
   .string()
-  .min(11, { message: "Password must be longer than 10 characters" })
-  .refine((password) => /[A-Z]/.test(password), {
+  .optional()
+  .refine((password) => password === undefined || password.length === 0 || password.length >= 11, {
+    message: "Password must be longer than 10 characters",
+  })
+  .refine((password) => password === undefined || password.length === 0 || /[A-Z]/.test(password), {
     message: "Password must contain at least 1 uppercase letter",
   })
-  .refine((password) => /[a-z]/.test(password), {
+  .refine((password) => password === undefined || password.length === 0 || /[a-z]/.test(password), {
     message: "Password must contain at least 1 lowercase letter",
   })
-  .refine((password) => /[0-9]/.test(password), { message: "Password must contain at least 1 number" })
-  .refine((password) => /[!@#$%^&*]/.test(password), {
+  .refine((password) => password === undefined || password.length === 0 || /[0-9]/.test(password), {
+    message: "Password must contain at least 1 number",
+  })
+  .refine((password) => password === undefined || password.length === 0 || /[!@#$%^&*]/.test(password), {
     message: "Password must contain at least 1 special character",
   })
-  .optional()
 
 const editFormSchema = z.object({
     name: z.string().min(2, {
@@ -187,10 +193,10 @@ function EditDialog({ data, isOpen, onClose }: { data: Data, isOpen: boolean, on
                 <DialogFooter>
                     {(status === 'ready' || status === 'failed') && (
                         <>
-                            <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Save</Button>
                             <DialogClose asChild>
                                 <Button variant="destructive">Cancel</Button>
                             </DialogClose>
+                            <Button type="submit" onClick={form.handleSubmit(onSubmit)}>Save</Button>
                         </>
                     )}
                     {(status === 'success') && (

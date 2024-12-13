@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client"
 
+import { useState } from "react"
+
 import { updateSettings } from "@/app/staff/settings/actions"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/components/ui/use-toast"
-import { BankDict } from "@/lib/const"
-import { useState } from "react"
+import { BankDict, BankOptions } from "@/lib/const"
 
 export interface Settings {
   id: number
@@ -19,8 +20,6 @@ export interface Settings {
 export interface SettingsKeyValEditorProps {
   settingsData: Settings[]
 }
-
-const bankEntries = Object.entries(BankDict)
 
 export function SettingsKeyValEditor({ settingsData }: SettingsKeyValEditorProps) {
     const { toast } = useToast()
@@ -110,8 +109,8 @@ export function SettingsKeyValEditor({ settingsData }: SettingsKeyValEditorProps
                                 <SelectValue placeholder="Select you bank here" />
                             </SelectTrigger>
                             <SelectContent className="w-96 bg-white max-h-48" defaultValue={ss.val || undefined}>
-                                {bankEntries.map((b) => (
-                                    <SelectItem value={b[0]} key={b[0]}>{b[1]}</SelectItem>
+                                {BankOptions.map((b) => (
+                                    <SelectItem value={b.code} key={b.code}>{b.nice_name} ({b.short.toUpperCase()})</SelectItem>
                                 ))}
                             </SelectContent>
                         </Select>

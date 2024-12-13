@@ -1,7 +1,7 @@
 import type { NextConfig } from "next"
 import { join, resolve } from 'path'
 import dotenv from 'dotenv'
-dotenv.config({ path: resolve(__dirname, '../.env') })
+dotenv.config({ path: resolve(__dirname, '../../.env') })
 
 const nextConfig: NextConfig = {
   output: 'standalone',

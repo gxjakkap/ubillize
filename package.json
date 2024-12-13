@@ -2,11 +2,12 @@
   "name": "ubillize",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "scripts": {
     "build": "turbo build",
     "dev": "turbo dev --framework-inference=false --env-mode=loose",
     "lint": "turbo lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "firstrun": "tsx --env-file=.env scripts/firstrun.ts",
     "db:check": "turbo run db:check",
     "db:generate": "turbo run db:generate",
     "db:migrate": "turbo run db:migrate"
@@ -15,10 +16,17 @@
   "author": "",
   "packageManager": "pnpm@9.15.0",
   "devDependencies": {
+    "@types/prompts": "^2.4.9",
+    "chalk": "^5.3.0",
     "dotenv": "^16.4.5",
-    "turbo": "^2.3.3"
+    "prompts": "^2.4.2",
+    "tsx": "^4.19.2",
+    "turbo": "^2.3.3",
+    "yocto-spinner": "^0.1.2"
   },
   "dependencies": {
+    "@ubillize/db": "workspace:*",
+    "axios": "^1.7.8",
     "drizzle-kit": "^0.28.1"
   }
 }

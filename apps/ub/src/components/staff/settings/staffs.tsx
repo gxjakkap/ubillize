@@ -2,7 +2,7 @@
 
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { staff } from "@/db/schema"
+import { staff } from "@ubillize/db/schema"
 import { AddStaffDialog } from "./add-staff"
 import { StaffEditAndDeleteActions } from "./edit-staff"
 
