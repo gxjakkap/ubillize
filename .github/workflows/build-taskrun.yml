@@ -2,7 +2,7 @@ name: Build Taskrun Docker Image
 on:
   push:
     paths:
-      - 'taskrun/**/*'
+      - 'apps/taskrun/**/*'
       - '.github/workflows/build-taskrun.yml'
 env:
   REGISTRY: ghcr.io
@@ -37,7 +37,7 @@ jobs:
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
-          file: taskrun/Dockerfile
+          file: apps/taskrun/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
