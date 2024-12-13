@@ -17,7 +17,7 @@ async function processTask(){
             FOR UPDATE SKIP LOCKED`
         )
         
-        if (!res.rowCount || res.rowCount < 1) return
+        if (!res.rowCount || res.rowCount < 1) return // skip task when there's no job pending
         const tasksRes = res.rows
 
         tasksRes.forEach((task) => {
