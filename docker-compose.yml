@@ -1,0 +1,82 @@
+services:
+  watchtower:
+    image: containrrr/watchtower
+    command:
+      - "--label-enable"
+      - "--interval"
+      - "30"
+      - "--rolling-restart"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  reverse-proxy:
+    image: traefik:v3.1
+    command:
+      - "--providers.docker"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+    ports:
+      - "3000:80"
+    depends_on:
+      - web
+    networks:
+      - ubillize
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  ub:
+    image: ghcr.io/gxjakkap/ubillize:main
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.web.rule=Host(`ub.guntxjakka.me`)"
+      - "traefik.http.services.web.loadbalancer.server.port=3000"
+      - "com.centurylinklabs.watchtower.enable=true"
+    env_file: ".env"
+    deploy:
+      mode: replicated
+      replicas: 2
+    restart: always
+    networks:
+      - ubillize
+    depends_on:
+      db:
+        condition: service_healthy
+
+  db:
+    image: postgres
+    restart: always
+    user: postgres
+    env_file: ".env"
+    networks:
+      - ubillize
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_LOG_STATEMENT=all
+      - POSTGRES_LOG_CONNECTIONS=true
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD", "pg_isready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  
+  taskrun:
+    image: ghcr.io/gxjakkap/ubillize-taskrun:main
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"
+    env_file: ".env"
+    restart: always
+    networks:
+      - ubillize
+    depends_on:
+      db:
+        condition: service_healthy
+    
+volumes:
+  db-data:
+
+networks:
+  ubillize:
+    driver: bridge

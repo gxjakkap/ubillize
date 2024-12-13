@@ -1,0 +1,17 @@
+{
+  "name": "taskrun",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx --env-file=../.env --watch src/index.ts",
+    "start": "tsx src/index.ts"
+  },
+  "dependencies": {
+    "@ubillize/db": "workspace:*",
+    "@ubillize/msg": "workspace:*",
+    "bottleneck": "^2.19.5",
+    "dotenv": "^16.4.5",
+    "tsx": "^4.19.2"
+  }
+}

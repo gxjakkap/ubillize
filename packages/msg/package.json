@@ -1,0 +1,19 @@
+{
+  "name": "@ubillize/msg",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./linesdk": "./src/linesdk.ts"
+  },
+  "files": [
+    "src/**/*"
+  ],
+  "dependencies": {
+    "@line/bot-sdk": "^9.5.0",
+    "@ubillize/date": "workspace:*",
+    "axios": "^1.7.8",
+    "dotenv": "^16.4.5"
+  }
+}
