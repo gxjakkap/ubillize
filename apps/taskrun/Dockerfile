@@ -8,7 +8,7 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
 COPY packages ./packages
-COPY taskrun ./taskrun
+COPY apps/taskrun ./taskrun
 
 RUN pnpm install
 

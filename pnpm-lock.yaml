@@ -19,59 +19,14 @@ importers:
         specifier: ^2.3.3
         version: 2.3.3
 
-  packages/date: {}
-
-  packages/db:
-    dependencies:
-      drizzle-orm:
-        specifier: ^0.36.4
-        version: 0.36.4(@types/pg@8.11.10)(pg@8.13.1)(postgres@3.4.5)(react@19.0.0-rc-66855b96-20241106)
-      next-auth:
-        specifier: 5.0.0-beta.25
-        version: 5.0.0-beta.25(next@15.0.3)(react@19.0.0-rc-66855b96-20241106)
-      pg:
-        specifier: ^8.13.1
-        version: 8.13.1
-      postgres:
-        specifier: ^3.4.5
-        version: 3.4.5
-    devDependencies:
-      '@types/pg':
-        specifier: ^8.11.10
-        version: 8.11.10
-      drizzle-kit:
-        specifier: ^0.28.1
-        version: 0.28.1
-      tsx:
-        specifier: ^4.19.2
-        version: 4.19.2
-      typescript:
-        specifier: ^5.2.2
-        version: 5.7.2
-
-  packages/msg:
-    dependencies:
-      '@line/bot-sdk':
-        specifier: ^9.5.0
-        version: 9.5.0
-      '@ubillize/date':
-        specifier: workspace:*
-        version: link:../date
-      axios:
-        specifier: ^1.7.8
-        version: 1.7.9
-      dotenv:
-        specifier: ^16.4.5
-        version: 16.4.7
-
-  taskrun:
+  apps/taskrun:
     dependencies:
       '@ubillize/db':
         specifier: workspace:*
-        version: link:../packages/db
+        version: link:../../packages/db
       '@ubillize/msg':
         specifier: workspace:*
-        version: link:../packages/msg
+        version: link:../../packages/msg
       bottleneck:
         specifier: ^2.19.5
         version: 2.19.5
@@ -82,7 +37,7 @@ importers:
         specifier: ^4.19.2
         version: 4.19.2
 
-  ub:
+  apps/ub:
     dependencies:
       '@auth/drizzle-adapter':
         specifier: ^1.7.4
@@ -125,10 +80,10 @@ importers:
         version: 1.1.5(@types/react-dom@18.3.5)(@types/react@18.3.16)(react-dom@19.0.0-rc-66855b96-20241106)(react@19.0.0-rc-66855b96-20241106)
       '@ubillize/date':
         specifier: workspace:*
-        version: link:../packages/date
+        version: link:../../packages/date
       '@ubillize/db':
         specifier: workspace:*
-        version: link:../packages/db
+        version: link:../../packages/db
       axios:
         specifier: ^1.7.8
         version: 1.7.9
@@ -223,6 +178,51 @@ importers:
       typescript:
         specifier: ^5.7.2
         version: 5.7.2
+
+  packages/date: {}
+
+  packages/db:
+    dependencies:
+      drizzle-orm:
+        specifier: ^0.36.4
+        version: 0.36.4(@types/pg@8.11.10)(pg@8.13.1)(postgres@3.4.5)(react@19.0.0-rc-66855b96-20241106)
+      next-auth:
+        specifier: 5.0.0-beta.25
+        version: 5.0.0-beta.25(next@15.0.3)(react@19.0.0-rc-66855b96-20241106)
+      pg:
+        specifier: ^8.13.1
+        version: 8.13.1
+      postgres:
+        specifier: ^3.4.5
+        version: 3.4.5
+    devDependencies:
+      '@types/pg':
+        specifier: ^8.11.10
+        version: 8.11.10
+      drizzle-kit:
+        specifier: ^0.28.1
+        version: 0.28.1
+      tsx:
+        specifier: ^4.19.2
+        version: 4.19.2
+      typescript:
+        specifier: ^5.2.2
+        version: 5.7.2
+
+  packages/msg:
+    dependencies:
+      '@line/bot-sdk':
+        specifier: ^9.5.0
+        version: 9.5.0
+      '@ubillize/date':
+        specifier: workspace:*
+        version: link:../date
+      axios:
+        specifier: ^1.7.8
+        version: 1.7.9
+      dotenv:
+        specifier: ^16.4.5
+        version: 16.4.7
 
 packages:
 
