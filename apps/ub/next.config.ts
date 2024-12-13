@@ -5,6 +5,7 @@ dotenv.config({ path: resolve(__dirname, '../.env') })
 
 const nextConfig: NextConfig = {
   output: 'standalone',
+  transpilePackages: ["@ubillize/db", "@ubillize/date"],
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.

@@ -1,4 +1,3 @@
 packages:
-  - 'ub'
-  - 'taskrun'
+  - 'apps/*'
   - 'packages/*'
