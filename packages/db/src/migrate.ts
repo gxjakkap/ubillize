@@ -1,11 +1,22 @@
 import { migrate } from 'drizzle-orm/node-postgres/migrator'
 import { drizzle } from 'drizzle-orm/node-postgres/driver'
 import { resolve } from 'path'
+import pg from "pg"
 import * as dotenv from 'dotenv'
 
 dotenv.config({ path: resolve('../../.env') })
 
-const db = drizzle(process.env.DATABASE_URL!)
+const { Pool } = pg
+
+const pool = new Pool({
+    user: process.env.DATABASE_USER,
+    password: process.env.DATABASE_PW,
+    host: process.env.DATABASE_HOST,
+    port: parseInt(process.env.DATABASE_PORT!),
+    database: process.env.DATABASE_NAME
+})
+
+const db = drizzle(pool)
 
 async function runMigrations() {
   try {
