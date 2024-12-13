@@ -61,5 +61,5 @@ COPY --from=installer --chown=nextjs:nodejs /app/ub/public ./public
 
 EXPOSE 3000
 
-CMD ["node", "ub/server.js"]
+CMD ["node", "server.js"]
 

@@ -1,16 +1,17 @@
 FROM node:20-alpine
-WORKDIR /app
-
-COPY ./package.json ./
-COPY ./pnpm-lock.yaml ./
-COPY ./pnpm-workspace.yaml ./
-COPY ./turbo.json ./
-COPY ./packages ./packages
-COPY ./taskrun ./taskrun
 
 RUN corepack enable pnpm
-RUN pnpm i --frozen-lockfile
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml turbo.json ./
+COPY packages ./packages
+COPY taskrun ./taskrun
+
+RUN pnpm install
 
 WORKDIR /app/taskrun
 
-CMD ["tsx", "src/index.ts"]
+CMD ["pnpm", "tsx", "src/index.ts"]
