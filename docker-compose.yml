@@ -28,8 +28,8 @@ services:
     image: ghcr.io/gxjakkap/ubillize:main
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.web.rule=Host(`ub.guntxjakka.me`)"
-      - "traefik.http.services.web.loadbalancer.server.port=3000"
+      - "traefik.http.routers.ub.rule=Host(`ub.guntxjakka.me`)"
+      - "traefik.http.services.ub.loadbalancer.server.port=3000"
       - "com.centurylinklabs.watchtower.enable=true"
     env_file: ".env"
     deploy:
