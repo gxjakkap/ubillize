@@ -1,6 +1,5 @@
 # syntax=docker.io/docker/dockerfile:1
 
-# Base image
 FROM node:20-alpine AS base
 
 # Install dependencies only when needed
@@ -8,58 +7,65 @@ FROM base AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Set up pnpm and install Turbo
+# Install Turbo globally
 RUN corepack enable pnpm
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-RUN pnpm add -g turbo
 
 # Create a pruned workspace with only the required dependencies
 COPY . .
-RUN turbo prune ub --docker
+RUN pnpm dlx turbo prune --scope=ub --docker
 
-# Installer stage
-FROM base AS installer
+# Rebuild the source code only when needed
+FROM base AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-# Set up pnpm
+# Install dependencies
+COPY --from=deps /app/out/json/ .
+COPY --from=deps /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 RUN corepack enable pnpm
 ENV PNPM_HOME="/pnpm"
 ENV PATH="$PNPM_HOME:$PATH"
-
-# Install dependencies from the pruned workspace
-COPY --from=deps /app/out/json/ .
-COPY --from=deps /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 RUN pnpm install --frozen-lockfile
 
-# Build the project
+# Copy source code
 COPY --from=deps /app/out/full/ .
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV NODE_ENV=production
+
+# Next.js build cache
+COPY --from=deps /app/out/full/.next/cache ./.next/cache
+
+# Set environment variables
+ENV NEXT_TELEMETRY_DISABLED 1
+ENV NODE_ENV production
+
+# Build the application
 RUN pnpm turbo run build --filter=ub...
 
-# Runner stage
+# Production image, copy all the files and run next
 FROM base AS runner
 WORKDIR /app
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+# Set the correct permission for prerender cache
+RUN mkdir .next
+RUN chown nextjs:nodejs .next
+
+# Automatically leverage output traces to reduce image size
+COPY --from=builder --chown=nextjs:nodejs /app/ub/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/ub/.next/static ./ub/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/ub/public ./ub/public
+
 USER nextjs
 
-# Set required environment variables
-ENV NODE_ENV=production
-ENV NEXT_TELEMETRY_DISABLED=1
-ENV PORT=3000
-ENV HOSTNAME="0.0.0.0"
-
-# Copy only the necessary files
-COPY --from=installer --chown=nextjs:nodejs /app/ub/.next/standalone ./
-COPY --from=installer --chown=nextjs:nodejs /app/ub/.next/static ./.next/static
-COPY --from=installer --chown=nextjs:nodejs /app/ub/public ./public
+ENV PORT 3000
+ENV HOSTNAME "0.0.0.0"
 
 EXPOSE 3000
 
+# Start the application
 CMD ["node", "server.js"]
 
