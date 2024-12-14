@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'apps/taskrun/**/*'
+      - 'packages/**/*'
       - '.github/workflows/build-taskrun.yml'
 env:
   REGISTRY: ghcr.io

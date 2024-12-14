@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'apps/ub/**/*'
+      - 'packages/**/*'
       - '.github/workflows/build-ub.yml'
 env:
   REGISTRY: ghcr.io
