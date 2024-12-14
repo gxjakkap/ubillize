@@ -14,7 +14,6 @@ export default async function StaffMainPage(){
 
     const [staffData] = await db.select().from(staff).where(eq(staff.id, session.user.id)).limit(1)
     const billsData = await db.select().from(bills)
-    console.log(db)
     return (
         <>
           <Card className="mb-8">

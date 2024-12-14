@@ -12,7 +12,6 @@ export async function POST(req: Request) {
         console.log("already setup")
         return new NextResponse(JSON.stringify({ status: 403 }), { status: 403 })
     }
-    console.log(body)
     if (!body || !body.osvtk){
         console.log("no body or no valid tk")
         return new NextResponse(JSON.stringify({ status: 403 }), { status: 403 })
@@ -28,13 +27,6 @@ export async function POST(req: Request) {
     }
 
     const id = crypto.randomUUID()
-
-    const collision = (await db.select().from(users).where(eq(users.id, id))).length > 0
-
-    if (collision){
-        // 1 in a billion chance that uuid failed me. just gonna tell client to try again
-        return { status: 500, err: 'id collision' }
-    }
 
     const salt = await genSalt(12)
     const pwHash = await hashPassword(body.pw, salt)
@@ -56,7 +48,6 @@ export async function POST(req: Request) {
     await db.insert(users).values(ru)
     await db.insert(staff).values(rs)
 
-    //await db.update(settings).set({ val: '1' }).where(eq(settings.key, 'hasSetUp'))
     await db.insert(settings).values({ key: 'hasSetUp', val: '1' })
     await db.insert(settings).values({ key: 'receivingBankAccNum', val: null })
     await db.insert(settings).values({ key: 'receivingBankId', val: null })
