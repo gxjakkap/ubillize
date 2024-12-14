@@ -270,7 +270,7 @@ export const BillPaidAlert = (data: BillsData) => {
                   },
                   {
                     "type": "text",
-                    "text": "payername",
+                    "text": `${data.payer}`,
                     "size": "sm",
                     "color": "#111111",
                     "align": "end"
