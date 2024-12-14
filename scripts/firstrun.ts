@@ -5,7 +5,7 @@ import axios from "axios"
 import fs from "fs"
 import "dotenv/config"
 
-const richMenuImagePath = './richmenu.png';
+const richMenuImagePath = 'scripts/richmenu.png';
 
 (async () => {
     try {
@@ -39,7 +39,7 @@ const richMenuImagePath = './richmenu.png';
             },
             selected: true,
             name: 'main',
-            chatBarText: 'View your bills',
+            chatBarText: 'Ubillize',
             areas: [
                 {
                     bounds: {
@@ -58,7 +58,9 @@ const richMenuImagePath = './richmenu.png';
         }
 
         const richMenuInitSpinner = yoctoSpinner({text: chalk.cyan(`Setting up LINE Rich Menu`)}).start()
-        const richMenuCreation = await axios.post('https://api.line.me/v2/bot/richmenu', richMenuCreationBody, { headers: { Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`, 'Content-Type': 'application/json' } })
+        const richMenuCreation = await axios.post('https://api.line.me/v2/bot/richmenu', richMenuCreationBody, { headers: { Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`, 'Content-Type': 'application/json' }, validateStatus() {
+            return true   
+        }, })
 
         if (richMenuCreation.status !== 200){
             richMenuInitSpinner.error(chalk.red("LINE Rich Menu Creation failed!"))
@@ -66,8 +68,8 @@ const richMenuImagePath = './richmenu.png';
         }
 
         const richMenuId = richMenuCreation.data['richMenuId']
-
-        const richMenuImageUpload = await axios.post(`https://api-data.line.me/v2/bot/richmenu/${richMenuId}/content`, fs.createReadStream(richMenuImagePath), {
+        const img = fs.createReadStream(richMenuImagePath)
+        const richMenuImageUpload = await axios.post(`https://api-data.line.me/v2/bot/richmenu/${richMenuId}/content`, img, {
             headers: {
               Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`,
               'Content-Type': 'image/png',
@@ -81,6 +83,20 @@ const richMenuImagePath = './richmenu.png';
 
         if (richMenuImageUpload.status !== 200){
             richMenuInitSpinner.error(chalk.red("LINE Rich Menu Image upload failed!"))
+            process.exit(1)
+        }
+
+        const richMenuShow = await axios.post(`https://api.line.me/v2/bot/user/all/richmenu/${richMenuId}`, {}, { 
+            headers: { 
+                Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}` 
+            }, 
+            validateStatus() {
+                return true   
+            }
+        })
+
+        if (richMenuShow.status !== 200){
+            richMenuInitSpinner.error(chalk.red("LINE Rich Menu setting failed!"))
             process.exit(1)
         }
 

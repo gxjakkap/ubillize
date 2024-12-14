@@ -41,7 +41,7 @@ export async function sendMessage(message: line.Message, channelAccessToken: str
 export const WelcomeMessage = () => {
   const msg: line.TextMessage = {
     type: 'text',
-    text: `Thanks for adding us as your friend!🎉\n\nPlease register here:\n\n🔗 ${BASE_URL}/login`
+    text: `Thanks for adding us as your friend!🎉\n\nTo begin, please register here:\n\n🔗 ${BASE_URL}/login`
   }
   return msg
 }

@@ -1,7 +1,7 @@
 import { db } from "@ubillize/db"
 import { accounts, bills, tasks, tenant, users } from "@ubillize/db/schema"
 import { eq, asc, sql } from "@ubillize/db/orm"
-import { BillAlert, BillCanceledAlert, BillPaidAlert, BillUpdatedAlert, sendMessage } from "@ubillize/msg"
+import { BillAlert, BillCanceledAlert, BillPaidAlert, BillUpdatedAlert, sendMessage, WelcomeMessage } from "@ubillize/msg"
 import Bottleneck from "bottleneck"
 
 
@@ -59,10 +59,10 @@ async function processTask(){
                         })
                         await db.update(tasks).set({ status: 'done' }).where(eq(tasks.id, task['id'] as number))
                     }
-                    /* else if (task['type'] === 'welcome'){
-
+                    else if (task['type'] === 'welcome'){
+                        await sendMessage(WelcomeMessage(), process.env.LINE_CHANNEL_ACCESS_TOKEN!, task['to'] as string)
                         await db.update(tasks).set({ status: 'done' }).where(eq(tasks.id, task['id'] as number))
-                    } */
+                    }
                 }
                 catch (err){
                     await db.update(tasks).set({ status: 'failed' }).where(eq(tasks.id, task['id'] as number))

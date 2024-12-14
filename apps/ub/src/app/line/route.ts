@@ -1,7 +1,7 @@
+import { db } from '@ubillize/db'
+import { tasks } from '@ubillize/db/schema'
 import crypto from 'crypto'
 import { NextRequest } from 'next/server'
-
-const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN!
 
 const verifySignature = (bodyString: string, signature: string): boolean => {
     const x = crypto.createHmac("SHA256", process.env.LINE_CHANNEL_SECRET!).update(bodyString).digest("base64")
@@ -35,20 +35,7 @@ export const POST = async (req: NextRequest) => {
             *   - send greeting message
             */
             if (event.type === 'follow') {
-                const getRes = await axios.get(`https://api.line.me/v2/bot/profile/${event.source.userId}`, {
-                    headers: {  
-                        Authorization: `Bearer ${channelAccessToken}`
-                    }
-                })
-                if (getRes.status !== 200){
-                    fastify.log.error(`Webhook Error: \n${getRes.data}`)
-                }
-                const { data } = getRes
-                console.log(`added ${JSON.stringify(data)}`)
-                // TODO: send greeting message
-                await db.insert(users).values({
-                    id: data.userId
-                })
+                await db.insert(tasks).values({ type: 'welcome', to: `${event.source.userId}`})
             }
             /*
             *   Unfollow event
@@ -59,7 +46,5 @@ export const POST = async (req: NextRequest) => {
             }
         }) 
     }
-    fastify.log.info('webhook recieved')
-    res.statusCode = 200
-    return {}
+    return new Response(JSON.stringify({}), { status: 200 })
 }
