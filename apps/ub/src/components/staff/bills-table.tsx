@@ -8,6 +8,7 @@ import { bills } from "@ubillize/db/schema"
 import { redirect, RedirectType } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { InferSelectModel } from "@ubillize/db/orm"
+import { PlusIcon } from "@heroicons/react/24/outline"
 
 //type BD = typeof bills.$inferSelect
 
@@ -25,7 +26,7 @@ export const StaffBillsTable = ({ billsData }: BillsTableProps) =>{
                     className="absolute top-5 right-5 p-2"
                     onClick={() => redirect('/staff/addbill')}
                 >
-                    Add Bills
+                   <PlusIcon className="w-10 h-10" /> Add Bills
                 </Button>
                 <CardTitle className="text-lg">Bills</CardTitle>
             </CardHeader>

@@ -9,7 +9,8 @@ import { formatDateString } from "@ubillize/date"
 import { CURRENCY_SYMBOL } from "@/lib/const"
 import { OSVDataDialog } from "@/components/staff/bill/osv-data-viewer"
 import { SlipDialog } from "@/components/staff/bill/slip-image-dialog"
-import Link from "next/link"
+import { BillArchiveDialog } from "@/components/staff/bill/archive-dialog"
+import { BillDeleteDialog } from "@/components/staff/bill/delete-dialog"
 
 interface StaffBillPageProps {
     params: Promise<{ id: string }>
@@ -28,8 +29,6 @@ export default async function StaffBillPage({ params }: StaffBillPageProps) {
     if (!billData){
         notFound()
     }
-
-    console.log(billData.slip)
 
     return (
         <>
@@ -51,6 +50,11 @@ export default async function StaffBillPage({ params }: StaffBillPageProps) {
                                 <h2 className="text-xl font-bold mb-2">Renter Info</h2>
                                 <p className="text-base"><span className="font-medium">Room Number:</span> {billData.roomNo}</p>
                             </div>
+                            {(billData.archiveStatus) && (<div className="flex flex-col">
+                                <h2 className="text-xl font-bold mb-2">Archive Info</h2>
+                                <p className="text-base"><span className="font-medium">Archive status:</span> Archived</p>
+                                <p className="text-base"><span className="font-medium">Archive on:</span> {formatDateString(billData.archiveDate?.valueOf() || 1)}</p>
+                            </div>)}
                             <div className="flex flex-col">
                                 <h2 className="text-xl font-bold mb-2">Due Amount</h2>
                                 {(billData.waterDueAmount !== null) && (<p className="text-base"><span className="font-medium">Water 🚿:</span> {CURRENCY_SYMBOL} {billData.waterDueAmount.toFixed(2)}</p>)}
@@ -68,10 +72,11 @@ export default async function StaffBillPage({ params }: StaffBillPageProps) {
                             </div>)}
                         </div>
                         <div className="flex flex-col gap-y-4 pr-10">
-                            <div className="flex flex-col">
-                                <Link href={`/staff/bill/${billData.id}/edit`}>✏️ Edit</Link>
-                                <Link href={`/staff/bill/${billData.id}/#`}>🗑️ Delete</Link>
-                                <Link href={`/staff/bill/${billData.id}/#`}>💾 Archive</Link>
+                            <div className="flex flex-col gap-y-3">
+                                <p className="font-bold text-lg">Action:</p>
+                                {/* {(!billData.paid) && (<Button variant="secondary">✏️ Edit</Button>)} */}
+                                {(billData.paid) && (<BillArchiveDialog id={billData.id} archiveStatus={billData.archiveStatus} />)}
+                                {(!billData.paid) && (<BillDeleteDialog id={billData.id} roomNo={billData.roomNo} />)}
                             </div>
                         </div>
                     </div>

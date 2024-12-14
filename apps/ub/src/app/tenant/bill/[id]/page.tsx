@@ -24,7 +24,7 @@ export default async function BillPage({ params }: BillPageProps){
         return
     }
     const [userData] = await db.select({ roomNo: tenant.roomNo, id: tenant.id, name: tenant.name, surname: tenant.surname }).from(tenant).where(eq(tenant.id, session.user.id)).limit(1)
-    const [billData] = await db.select().from(bills).where(and(eq(bills.id, parseInt(billId)), eq(bills.roomNo, userData.roomNo!))).limit(1)
+    const [billData] = await db.select().from(bills).where(and(and(eq(bills.id, parseInt(billId)), eq(bills.roomNo, userData.roomNo!)), eq(bills.archiveStatus, false))).limit(1)
     if (!billData){
         return notFound()
     }

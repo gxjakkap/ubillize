@@ -202,6 +202,162 @@ export const BillAlert = (data: BillsData) => {
     return msg
 }
 
+export const BillUpdatedAlert = (data: BillsData) => {
+  const { id, roomNo, dateDue, dateAdded, rentDueAmount, electDueAmount, waterDueAmount, totalDueAmount } = data
+  const msg: line.FlexMessage = {
+      type: 'flex',
+      altText: `Bill #${id.toString().padStart(5, '0')} updated`,
+      contents: {
+        "type": "bubble",
+        "body": {
+          "type": "box",
+          "layout": "vertical",
+          "contents": [
+            {
+              "type": "text",
+              "text": `Bill Updated`,
+              "weight": "bold",
+              "size": "xxl",
+              "margin": "md"
+            },
+            {
+              "type": "text",
+              "text": `DUE ${formatDateString(dateDue.valueOf())}`,
+              "color": "#FA0000"
+            },
+            {
+              "type": "text",
+              "text": `ROOM ${roomNo} - #${id.toString().padStart(5, '0')}`,
+              "size": "xs",
+              "color": "#aaaaaa",
+              "wrap": true
+            },
+            {
+              "type": "separator",
+              "margin": "xxl"
+            },
+            {
+              "type": "box",
+              "layout": "vertical",
+              "margin": "xxl",
+              "spacing": "sm",
+              "contents": [
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "Rent",
+                      "size": "sm",
+                      "color": "#555555",
+                      "flex": 0
+                    },
+                    {
+                      "type": "text",
+                      "text": `${CURRENCY_SYMBOL} ${rentDueAmount.toFixed(2)}`,
+                      "size": "sm",
+                      "color": "#111111",
+                      "align": "end"
+                    }
+                  ]
+                },
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "Electricity",
+                      "size": "sm",
+                      "color": "#555555",
+                      "flex": 0
+                    },
+                    {
+                      "type": "text",
+                      "text": `${CURRENCY_SYMBOL} ${electDueAmount?.toFixed(2)}`,
+                      "size": "sm",
+                      "color": "#111111",
+                      "align": "end"
+                    }
+                  ]
+                },
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "Water",
+                      "size": "sm",
+                      "color": "#555555",
+                      "flex": 0
+                    },
+                    {
+                      "type": "text",
+                      "text": `${CURRENCY_SYMBOL} ${waterDueAmount?.toFixed(2)}`,
+                      "size": "sm",
+                      "color": "#111111",
+                      "align": "end"
+                    }
+                  ]
+                },
+                {
+                  "type": "separator",
+                  "margin": "xxl"
+                },
+                {
+                  "type": "box",
+                  "layout": "horizontal",
+                  "contents": [
+                    {
+                      "type": "text",
+                      "text": "TOTAL",
+                      "size": "sm",
+                      "color": "#555555"
+                    },
+                    {
+                      "type": "text",
+                      "text": `${CURRENCY_SYMBOL} ${totalDueAmount.toFixed(2)}`,
+                      "size": "sm",
+                      "color": "#111111",
+                      "align": "end"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "separator",
+              "margin": "xxl"
+            },
+            {
+              "type": "box",
+              "layout": "horizontal",
+              "margin": "md",
+              "contents": [
+                {
+                  "type": "button",
+                  "action": {
+                    "type": "uri",
+                    "label": "Click to pay / View details",
+                    "uri": `${BASE_URL}/tenant/bill/${data.id}`
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "styles": {
+          "footer": {
+            "separator": true
+          }
+        }
+      }
+  }
+  return msg
+}
+
 export const BillPaidAlert = (data: BillsData) => {
   const msg: line.FlexMessage = {
     type: 'flex',
@@ -310,6 +466,43 @@ export const BillPaidAlert = (data: BillsData) => {
               "label": "View Receipt",
               "uri": `${BASE_URL}/tenant/bill/${data.id}`
             }
+          }
+        ]
+      },
+      "styles": {
+        "footer": {
+          "separator": true
+        }
+      }
+    }
+  }
+  return msg
+}
+
+export const BillCanceledAlert = (roomNo: string, id: number) => {
+  const msg: line.FlexMessage = {
+    type: 'flex',
+    altText: `Bill #${id.toString().padStart(5, '0')} Canceled`,
+    contents: {
+      "type": "bubble",
+      "body": {
+        "type": "box",
+        "layout": "vertical",
+        "contents": [
+          {
+            "type": "text",
+            "text": "Bill Canceled",
+            "weight": "bold",
+            "size": "xxl",
+            "margin": "md",
+            "color": "#be4343"
+          },
+          {
+            "type": "text",
+            "text": `Room ${roomNo} - #${id.toString().padStart(5, '0')}`,
+            "size": "xs",
+            "color": "#aaaaaa",
+            "wrap": true
           }
         ]
       },
