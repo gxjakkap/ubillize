@@ -21,7 +21,7 @@ import { Separator } from "@/components/ui/separator"
 import { Dialog, DialogContent } from "@/components/ui/dialog"
 import { LoadingSpiner } from "@/components/svg/loading-spiner"
 import BankLogo from '@/components/bank-logo'
-import { useToast } from '@/components/ui/use-toast'
+import { useToast } from "@/hooks/use-toast"
 
 
 

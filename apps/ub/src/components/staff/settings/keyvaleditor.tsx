@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { useToast } from "@/components/ui/use-toast"
-import { BankDict, BankOptions } from "@/lib/const"
+import { useToast } from "@/hooks/use-toast"
+import { BankOptions } from "@/lib/const"
 
 export interface Settings {
   id: number
@@ -40,7 +40,7 @@ export function SettingsKeyValEditor({ settingsData }: SettingsKeyValEditorProps
         const curSetting = settingsValue.filter((s) => s.id === id)[0]
         if (editMode[id]){
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const res = await updateSettings({ key: curSetting.key , nVal: (curSetting.val?.length) ? curSetting.val : null })
+            const res = await updateSettings({ key: curSetting.key , nVal: (curSetting.val?.length && curSetting.val?.length > 0) ? curSetting.val : null })
             if (!cancel){
                 toast({
                     title: `${curSetting.key} edited successfully!`,
@@ -53,7 +53,7 @@ export function SettingsKeyValEditor({ settingsData }: SettingsKeyValEditorProps
     }
 
     const ReceivingBankAccNumSetting = () => {
-        const [ss] = settingsValue.filter((x) => x.key === 'receivingBankAccNum')
+        const [ss] = settingsValue.filter((x) => x.key === "receivingBankAccNum")
         const [localValue, setLocalValue] = useState(ss?.val || "")
     
         if (!ss) return <></>
@@ -71,7 +71,10 @@ export function SettingsKeyValEditor({ settingsData }: SettingsKeyValEditorProps
                         type="text"
                         value={localValue}
                         disabled={!editMode[ss.id]}
-                        onChange={(e) => setLocalValue(e.target.value)}
+                        onChange={(e) => {
+                            setLocalValue(e.target.value)
+                            console.log(localValue)
+                        }}
                         className="w-96"
                     />
                     <Button

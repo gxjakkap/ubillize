@@ -20,6 +20,11 @@ export default async function TenantPage(){
     }
 
     const [tenantData] = await db.select().from(tenant).where(eq(tenant.id, session.user.id)).limit(1)
+
+    if (!tenantData){
+      return
+    }
+
     const billsData = await db.select().from(bills).where(and(eq(bills.roomNo, tenantData.roomNo!), eq(bills.archiveStatus, false)))
 
     return (

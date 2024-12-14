@@ -15,6 +15,7 @@ export async function updateSettings({ key, nVal }: { key: string, nVal: string 
     if (!session || !checkRoles(session.user.role, AdminAppRoles)){
         return { status: 403, err: 'forbidden' }
     }
+    console.log(`key: ${key}, nval: ${nVal}`)
     const updatedVal: Partial<typeof settings.$inferSelect> = {
         val: nVal
     }

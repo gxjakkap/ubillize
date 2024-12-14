@@ -1,11 +1,17 @@
-import { Toaster } from "@/components/ui/toaster";
+import { Inter } from "next/font/google"
+
+import { Toaster } from "@/components/ui/toaster"
 import "./globals.css"
 
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export default function RootLayout({ children}: Readonly<{ children: React.ReactNode;}>) {
   return (
     <html lang="en">
-      <body>
+      <body className={`${inter.className}`}>
         {children}
         <Toaster />
       </body>

@@ -2,10 +2,12 @@ import * as line from '@line/bot-sdk'
 import axios from 'axios'
 import { shortDateString, formatDateString } from '@ubillize/date'
 import * as dotenv from 'dotenv'
+import { InferSelectModel } from '@ubillize/db/orm'
+import { bills } from '@ubillize/db/schema'
 
 dotenv.config()
 
-export interface BillsData{
+/* export interface BillsData{
     id: number,
     dateAdded: Date,
     dateDue: Date,
@@ -20,6 +22,9 @@ export interface BillsData{
     archiveStatus: boolean,
     roomNo: string
 }
+ */
+
+export type BillsData = InferSelectModel<typeof bills>
 
 const CURRENCY_SYMBOL = '฿'
 const BASE_URL = process.env.BASE_URL!

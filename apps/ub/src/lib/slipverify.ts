@@ -43,14 +43,26 @@ export const slipVerify = async(refNbr: string, amount: number): Promise<SlipVer
         amount,
         token
     }
+
+    console.log(reqBody)
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const statusValidator = (statusCode: number) => {
+        //wip better status code handler
+        return true
+    }
+
     const reqAxiosConfig: AxiosRequestConfig = {
         headers: {
             'Content-Type': 'application/json'
-        }
+        },
+        validateStatus: statusValidator, 
     }
 
     const res = await axios.post('https://api.openslipverify.com/', reqBody, reqAxiosConfig)
     const resData = res.data
+
+    console.log(resData)
 
     if (resData['success'] === false){
         if (['ไม่พบสลิปในระบบ หรือจำนวนเงินไม่ถูกต้อง', '"รูปแบบรหัสของสลิปไม่ถูกต้อง กรุณาตรวจสอบใหม่อีกครั้ง"'].includes(resData['msg'])) return { success: false, err: SlipVerifyError.InvalidSlipOrQr }

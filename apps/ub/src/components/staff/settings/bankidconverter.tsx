@@ -8,7 +8,7 @@ import { BankDict } from "@/lib/const"
 import { useState } from "react"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ClipboardIcon } from "@heroicons/react/24/outline"
-import { useToast } from "@/components/ui/use-toast"
+import { useToast } from "@/hooks/use-toast"
 
 export function BankIdConverter(){
     const { toast } = useToast()
