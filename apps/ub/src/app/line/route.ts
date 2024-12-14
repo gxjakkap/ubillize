@@ -26,6 +26,8 @@ export const POST = async (req: NextRequest) => {
         return new Response(JSON.stringify({}), { status: 200 })
     }
 
+    console.log(body)
+
     if (body.events) {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         body.events.forEach(async (event: any) =>{
