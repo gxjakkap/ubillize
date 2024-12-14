@@ -58,7 +58,7 @@ const richMenuImagePath = './richmenu.png';
         }
 
         const richMenuInitSpinner = yoctoSpinner({text: chalk.cyan(`Setting up LINE Rich Menu`)}).start()
-        const richMenuCreation = await axios.post('https://api.line.me/v2/bot/richmenu', richMenuCreationBody, { headers: { 'Content-Type': `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}` } })
+        const richMenuCreation = await axios.post('https://api.line.me/v2/bot/richmenu', richMenuCreationBody, { headers: { Authorization: `Bearer ${process.env.LINE_CHANNEL_ACCESS_TOKEN}`, 'Content-Type': 'application/json' } })
 
         if (richMenuCreation.status !== 200){
             richMenuInitSpinner.error(chalk.red("LINE Rich Menu Creation failed!"))
