@@ -78,6 +78,8 @@ export async function editStaffAccount(data: Partial<{ name: string, role: "staf
         return { status: 400, err: 'account does not exist' }
     }
 
+    console.log(data)
+
     const rs: Partial<InferInsertModel<typeof staff>> = {}
     const ru: Partial<InferInsertModel<typeof users>> = {}
 
