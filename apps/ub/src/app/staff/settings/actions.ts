@@ -9,6 +9,7 @@ import { auth } from "@/auth"
 import { hashPassword } from "@/lib/auth/password"
 import { AdminAppRoles } from "@/lib/const"
 import { checkRoles } from "@/lib/roles"
+import { isEmpty } from "@/lib/obj"
 
 export async function updateSettings({ key, nVal }: { key: string, nVal: string | null }){
     const session = await auth()
@@ -78,8 +79,6 @@ export async function editStaffAccount(data: Partial<{ name: string, role: "staf
         return { status: 400, err: 'account does not exist' }
     }
 
-    console.log(data)
-
     const rs: Partial<InferInsertModel<typeof staff>> = {}
     const ru: Partial<InferInsertModel<typeof users>> = {}
 
@@ -102,10 +101,12 @@ export async function editStaffAccount(data: Partial<{ name: string, role: "staf
     if (data.role){
         ru.role = data.role
     }
-
-    await db.update(users).set(ru).where(eq(users.id, id))
-    await db.update(staff).set(rs).where(eq(staff.id, id))
-
+    if (!isEmpty(ru)){
+        await db.update(users).set(ru).where(eq(users.id, id))
+    }
+    if (!isEmpty(rs)){
+        await db.update(staff).set(rs).where(eq(staff.id, id))
+    }
     /* const [utr] = await db.insert(users).values(ru).returning({ id: users.id, role: users.role })
     const [str] = await db.insert(staff).values(rs).returning({ id: staff.id }) */
 
