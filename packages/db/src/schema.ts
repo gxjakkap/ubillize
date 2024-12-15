@@ -24,8 +24,6 @@ export const bills = pgTable('bills', {
     id: integer('id').generatedAlwaysAsIdentity().primaryKey(),
     dateAdded: timestamp('dateAdded', { withTimezone: true }).defaultNow().notNull(),
     dateDue: date('dateDue', { mode: 'date' }).notNull(),
-    electUnit: real('electUnit'),
-    waterUnit: real('waterUnit'),
     electDueAmount: real('electDueAmount'),
     waterDueAmount: real('waterDueAmount'),
     rentDueAmount: real('rentDueAmount').notNull(),

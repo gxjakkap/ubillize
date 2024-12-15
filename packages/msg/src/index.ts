@@ -7,23 +7,6 @@ import { bills } from '@ubillize/db/schema'
 
 dotenv.config()
 
-/* export interface BillsData{
-    id: number,
-    dateAdded: Date,
-    dateDue: Date,
-    elecUnit?: number | null,
-    waterUnit?: number | null,
-    electDueAmount?: number | null,
-    waterDueAmount?: number | null,
-    rentDueAmount: number,
-    totalDueAmount: number,
-    paid: boolean,
-    slip?: string | null,
-    archiveStatus: boolean,
-    roomNo: string
-}
- */
-
 export type BillsData = InferSelectModel<typeof bills>
 
 const CURRENCY_SYMBOL = '฿'

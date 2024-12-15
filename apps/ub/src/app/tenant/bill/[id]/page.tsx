@@ -47,8 +47,8 @@ export default async function BillPage({ params }: BillPageProps){
                         <Separator />
                         <div className="space-y-2">
                             <BillItem label="Rent" amount={billData.rentDueAmount} />
-                            {(typeof billData.electDueAmount === 'number' && billData.electDueAmount > 0) && <BillItem label="Electricity" amount={billData.electDueAmount} unit={billData.electUnit} />}
-                            {(typeof billData.waterDueAmount  === 'number' && billData.waterDueAmount > 0) && <BillItem label="Water" amount={billData.waterDueAmount} unit={billData.waterUnit} />}
+                            {(typeof billData.electDueAmount === 'number' && billData.electDueAmount > 0) && <BillItem label="Electricity" amount={billData.electDueAmount} />}
+                            {(typeof billData.waterDueAmount  === 'number' && billData.waterDueAmount > 0) && <BillItem label="Water" amount={billData.waterDueAmount} />}
                         </div>
                         <Separator />
                         <div className="space-y-2">
@@ -72,13 +72,12 @@ export default async function BillPage({ params }: BillPageProps){
 interface BillItemProps {
     label: string
     amount: number
-    unit?: number | null
 }
 
-function BillItem({ label, amount, unit }: BillItemProps) {
+function BillItem({ label, amount }: BillItemProps) {
     return (
         <div className="flex justify-between items-center">
-            <span className="text-sm">{label}{unit ? ` (${unit} units)` : ''}</span>
+            <span className="text-sm">{label}</span>
             <span className="text-sm font-medium">฿{amount.toFixed(2)}</span>
         </div>
     )
