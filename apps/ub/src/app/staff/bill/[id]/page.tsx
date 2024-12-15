@@ -20,7 +20,7 @@ export default async function StaffBillPage({ params }: StaffBillPageProps) {
     const { id } = await params
 
     const [billData] = await db
-        .select({ id: bills.id, dateAdded: bills.dateAdded, dateDue: bills.dateDue, electUnit: bills.electUnit, waterUnit: bills.waterUnit, electDueAmount: bills.electDueAmount, waterDueAmount: bills.waterDueAmount, rentDueAmount: bills.rentDueAmount, totalDueAmount: bills.totalDueAmount, paid: bills.paid, paidDate: bills.paidDate, payer: bills.payer, slip: bills.slip, addedBy: bills.addedBy, addedByName: staff.displayName, addedByMail: staff.email, archiveStatus: bills.archiveStatus, archiveDate: bills.archiveDate, osvData: bills.osvData, roomNo: bills.roomNo })
+        .select({ id: bills.id, dateAdded: bills.dateAdded, dateDue: bills.dateDue, electDueAmount: bills.electDueAmount, waterDueAmount: bills.waterDueAmount, rentDueAmount: bills.rentDueAmount, totalDueAmount: bills.totalDueAmount, paid: bills.paid, paidDate: bills.paidDate, payer: bills.payer, slip: bills.slip, addedBy: bills.addedBy, addedByName: staff.displayName, addedByMail: staff.email, archiveStatus: bills.archiveStatus, archiveDate: bills.archiveDate, osvData: bills.osvData, roomNo: bills.roomNo })
         .from(bills)
         .where(eq(bills.id, parseInt(id)))
         .leftJoin(staff, eq(bills.addedBy, staff.id))

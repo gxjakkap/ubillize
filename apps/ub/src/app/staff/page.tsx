@@ -19,7 +19,7 @@ export default async function StaffMainPage(){
     }
 
     const [staffData] = await db.select().from(staff).where(eq(staff.id, session.user.id)).leftJoin(users, eq(staff.id, staff.id)).limit(1)
-    const billsData = await db.select({ id: bills.id, dateAdded: bills.dateAdded, dateDue: bills.dateDue, electUnit: bills.electUnit, waterUnit: bills.waterUnit, electDueAmount: bills.electDueAmount, waterDueAmount: bills.waterDueAmount, rentDueAmount: bills.rentDueAmount, totalDueAmount: bills.totalDueAmount, paid: bills.paid, paidDate: bills.paidDate, payer: bills.payer, slip: bills.slip, addedBy: bills.addedBy, addedByName: staff.displayName, addedByMail: staff.email, archiveStatus: bills.archiveStatus, archiveDate: bills.archiveDate, osvData: bills.osvData, roomNo: bills.roomNo }).from(bills).leftJoin(staff, eq(bills.addedBy, staff.id))
+    const billsData = await db.select({ id: bills.id, dateAdded: bills.dateAdded, dateDue: bills.dateDue, electDueAmount: bills.electDueAmount, waterDueAmount: bills.waterDueAmount, rentDueAmount: bills.rentDueAmount, totalDueAmount: bills.totalDueAmount, paid: bills.paid, paidDate: bills.paidDate, payer: bills.payer, slip: bills.slip, addedBy: bills.addedBy, addedByName: staff.displayName, addedByMail: staff.email, archiveStatus: bills.archiveStatus, archiveDate: bills.archiveDate, osvData: bills.osvData, roomNo: bills.roomNo }).from(bills).leftJoin(staff, eq(bills.addedBy, staff.id))
     return (
         <>
           <Card className="mb-8">
